@@ -1,13 +1,12 @@
-
 # Dependencies
 node_modules/
-*/node_modules/
+**/node_modules/
 
 # Production builds
 dist/
 build/
-*/dist/
-*/build/
+**/dist/
+**/build/
 
 # Environment files (protect secrets)
 .env
@@ -15,6 +14,8 @@ build/
 .env.*.local
 *.env
 !.env.example
+**/.env
+**/.env.local
 
 # Logs and cache
 npm-debug.log*
@@ -29,7 +30,19 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Temporary screenshots & agent logs
+# Temporary screenshots & media
 *.png
 *.jpg
+*.jpeg
+*.mp4
+*.zip
+
+# Backup directories and files
+*.bak
+*_backup/
+**/src_v2_backup/
+
+# Temporary folders & tools
 .agents/
+send/
+brag-output/

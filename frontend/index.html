@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heat Treatment Inspection Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      /* Emil Kowalski Design Engineering & Micro-Interactions */
+      :root {
+        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+        --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+        --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+      }
+
+      /* Snappy scale-in for popovers, selects & dropdowns - never scale(0) */
+      @keyframes emilScaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.96) translateY(-4px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      /* Button press feedback: instantaneous response confirming the UI heard the user */
+      button:not(:disabled):active,
+      [role="button"]:not([aria-disabled="true"]):active {
+        transform: scale(0.97) !important;
+        transition: transform 80ms var(--ease-out) !important;
+      }
+
+      /* Avoid layout thrashing: specific transitions only */
+      button, [role="button"] {
+        transition: transform 120ms var(--ease-out), background-color 140ms ease-out, border-color 140ms ease-out, box-shadow 140ms ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

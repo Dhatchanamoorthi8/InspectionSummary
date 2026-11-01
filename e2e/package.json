@@ -1,0 +1,23 @@
+{
+  "name": "heat-treatment-inspection-e2e",
+  "version": "1.0.0",
+  "description": "Opaque-box E2E automated test suite for Heat Treatment Inspection Report Entry web application",
+  "type": "module",
+  "scripts": {
+    "test": "node test-runner.mjs",
+    "test:tier1": "node test-runner.mjs --tier=1",
+    "test:tier2": "node test-runner.mjs --tier=2",
+    "test:tier3": "node test-runner.mjs --tier=3",
+    "test:tier4": "node test-runner.mjs --tier=4",
+    "test:all": "node test-runner.mjs --all"
+  },
+  "keywords": [
+    "e2e",
+    "testing",
+    "heat-treatment-inspection",
+    "bva",
+    "rbac"
+  ],
+  "author": "teamwork_test_writer",
+  "license": "UNLICENSED"
+}
