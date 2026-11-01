@@ -77,6 +77,7 @@ export class RequestsService implements OnModuleInit {
     partName?: string;
     inspectorId?: string;
     reportResult?: string;
+    shift?: string;
   }) {
     const query = this.requestRepo
       .createQueryBuilder('request')
@@ -111,6 +112,10 @@ export class RequestsService implements OnModuleInit {
       });
     }
 
+    if (filters?.shift) {
+      query.andWhere('request.shift = :shift', { shift: filters.shift });
+    }
+
     const results = await query.getMany();
     return results;
   }
@@ -122,7 +127,7 @@ export class RequestsService implements OnModuleInit {
       );
     }
 
-    const { partName, partNumber, assignedInspectorId, remarks, moduleType, moduleMetadata } = body || {};
+    const { partName, partNumber, assignedInspectorId, remarks, moduleType, moduleMetadata, shift } = body || {};
 
     if (!partName || !partNumber) {
       throw new BadRequestException('Part Name and Part Number are required');
@@ -165,6 +170,7 @@ export class RequestsService implements OnModuleInit {
         const newReq = this.requestRepo.create({
           requestNumber,
           date: today,
+          shift: shift || 'Shift 1',
           moduleType: moduleType || 'HEAT_TREATMENT',
           moduleMetadata: moduleMetadata || null,
           partId: partMatch.id,

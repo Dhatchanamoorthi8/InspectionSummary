@@ -170,6 +170,7 @@ export const requestsApi = {
     partName?: string;
     inspectorId?: string;
     reportResult?: string;
+    shift?: string;
   }) => {
     const res = await api.get<InspectionRequest[]>('/requests', {
       params: filters,
@@ -183,6 +184,7 @@ export const requestsApi = {
   createRequest: async (data: {
     partName: string;
     partNumber: string;
+    shift?: string;
     assignedInspectorId?: string;
     remarks?: string;
     moduleType?: string;

@@ -252,7 +252,7 @@ export const RequestDetailPage: React.FC = () => {
                 )}
               </HStack>
               <Text fontSize="xs" color="gray.500" mt={1}>
-                Created on {request?.date} &bull; ID: {request?.id}
+                Created on {request?.date} &bull; Shift: {request?.shift || 'Shift 1'} &bull; ID: {request?.id}
               </Text>
             </Box>
           </Flex>
@@ -313,7 +313,7 @@ export const RequestDetailPage: React.FC = () => {
             <TabPanels>
               {/* Tab 1: Request Overview */}
               <TabPanel value="overview" px={0} pt={5} pb={0}>
-                <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} gap={6}>
+                <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} gap={6}>
                   <Box>
                     <Text fontSize="xs" fontWeight="700" color="gray.500" textTransform="uppercase">
                       Part Name
@@ -330,6 +330,28 @@ export const RequestDetailPage: React.FC = () => {
                     <Text fontSize="md" fontWeight="700" fontFamily="mono" color={partNumberColor} mt={1}>
                       {request?.partNumber}
                     </Text>
+                  </Box>
+
+                  <Box>
+                    <Text fontSize="xs" fontWeight="700" color="gray.500" textTransform="uppercase">
+                      Production Shift
+                    </Text>
+                    <Box mt={1}>
+                      <Badge
+                        colorPalette={
+                          (request?.shift || 'Shift 1') === 'Shift 1' ? 'blue' :
+                          (request?.shift || 'Shift 1') === 'Shift 2' ? 'orange' :
+                          (request?.shift || 'Shift 1') === 'Shift 3' ? 'purple' : 'teal'
+                        }
+                        size="md"
+                        variant="subtle"
+                        fontWeight="700"
+                        px={2.5}
+                        py={0.5}
+                      >
+                        {request?.shift || 'Shift 1'}
+                      </Badge>
+                    </Box>
                   </Box>
 
                   <Box>

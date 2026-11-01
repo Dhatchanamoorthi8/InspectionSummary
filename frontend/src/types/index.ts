@@ -94,6 +94,7 @@ export interface InspectionRequest {
   id: string;
   requestNumber: string;
   date: string;
+  shift?: string;
   moduleType?: string;
   moduleMetadata?: Record<string, any> | null;
   partId: string;
@@ -137,6 +138,7 @@ export interface RunChartPoint {
   requestId: string;
   requestNumber: string;
   date: string;
+  shift?: string;
   reportDate: string;
   heatBatchNumber: string;
   partName: string;

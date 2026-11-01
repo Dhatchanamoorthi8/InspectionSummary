@@ -26,12 +26,14 @@ export class RequestsController {
     @Query('partName') partName?: string,
     @Query('inspectorId') inspectorId?: string,
     @Query('reportResult') reportResult?: string,
+    @Query('shift') shift?: string,
   ) {
     return this.requestsService.findAll(user, {
       status,
       partName,
       inspectorId,
       reportResult,
+      shift,
     });
   }
 

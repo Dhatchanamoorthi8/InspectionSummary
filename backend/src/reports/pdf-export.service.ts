@@ -27,6 +27,7 @@ export class PdfExportService {
     doc.moveDown(0.5);
     doc.fontSize(10).font('Helvetica');
     doc.text(`Request Number: ${report.requestNumber}`);
+    doc.text(`Shift: ${(report as any).request?.shift || (report as any).shift || 'Shift 1'}`);
     doc.text(`Part Name: ${report.partName}`);
     doc.text(`Part Number: ${report.partNumber}`);
     doc.text(`Heat / Batch Number: ${report.heatBatchNumber}`);

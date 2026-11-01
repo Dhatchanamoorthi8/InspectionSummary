@@ -38,6 +38,10 @@ export class InspectionRequest {
   @Column({ type: 'varchar', length: 20, default: () => 'CURRENT_DATE' })
   date: string;
 
+  @Index('idx_requests_shift')
+  @Column({ type: 'varchar', length: 50, default: 'Shift 1' })
+  shift: string;
+
   @Index('idx_requests_part_id')
   @Column({ name: 'part_id', type: 'varchar', length: 100, nullable: true })
   partId: string | null;

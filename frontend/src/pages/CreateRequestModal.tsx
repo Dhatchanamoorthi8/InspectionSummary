@@ -32,6 +32,20 @@ interface CreateRequestModalProps {
   onSuccess: () => void;
 }
 
+const getSuggestedShift = (): string => {
+  const hour = new Date().getHours();
+  if (hour >= 6 && hour < 14) return 'Shift 1';
+  if (hour >= 14 && hour < 22) return 'Shift 2';
+  return 'Shift 3';
+};
+
+const SHIFT_OPTIONS = [
+  { value: 'Shift 1', label: 'Shift 1 (06:00 – 14:00)', badge: 'Morning', badgeColorScheme: 'blue' },
+  { value: 'Shift 2', label: 'Shift 2 (14:00 – 22:00)', badge: 'Evening', badgeColorScheme: 'orange' },
+  { value: 'Shift 3', label: 'Shift 3 (22:00 – 06:00)', badge: 'Night', badgeColorScheme: 'purple' },
+  { value: 'General Shift', label: 'General Shift (09:00 – 17:30)', badge: 'General', badgeColorScheme: 'teal' },
+];
+
 export const CreateRequestModal: React.FC<CreateRequestModalProps> = ({
   isOpen,
   onClose,
@@ -46,7 +60,7 @@ export const CreateRequestModal: React.FC<CreateRequestModalProps> = ({
   const [remarks, setRemarks] = useState('');
   const [moduleType, setModuleType] = useState<'HEAT_TREATMENT' | 'LINE_INSPECTION'>('HEAT_TREATMENT');
   const [lineId, setLineId] = useState('Line-01');
-  const [shift, setShift] = useState('Shift-A');
+  const [shift, setShift] = useState(getSuggestedShift());
 
   const [isLoadingMasterData, setIsLoadingMasterData] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,7 +85,7 @@ export const CreateRequestModal: React.FC<CreateRequestModalProps> = ({
       setRemarks('');
       setModuleType('HEAT_TREATMENT');
       setLineId('Line-01');
-      setShift('Shift-A');
+      setShift(getSuggestedShift());
       setHasAttemptedSubmit(false);
     }
   }, [isOpen]);
@@ -142,6 +156,7 @@ export const CreateRequestModal: React.FC<CreateRequestModalProps> = ({
       await requestsApi.createRequest({
         partName: selectedPartName,
         partNumber: selectedPartNumber,
+        shift,
         assignedInspectorId: selectedInspectorId || undefined,
         remarks: remarks.trim() || undefined,
         moduleType,
@@ -202,6 +217,7 @@ export const CreateRequestModal: React.FC<CreateRequestModalProps> = ({
       await requestsApi.createRequest({
         partName: selectedPartName,
         partNumber: selectedPartNumber,
+        shift,
         assignedInspectorId: selectedInspectorId,
         remarks: remarks.trim() || undefined,
         moduleType,
@@ -278,34 +294,17 @@ export const CreateRequestModal: React.FC<CreateRequestModalProps> = ({
 
             {/* Line Inspection Context Fields */}
             {moduleType === 'LINE_INSPECTION' && (
-              <HStack gap={4}>
-                <Field.Root flex={1} required>
-                  <Field.Label fontSize="xs" fontWeight="700" color={labelColor}>
-                    LINE NO.
-                  </Field.Label>
-                  <Input
-                    size="sm"
-                    value={lineId}
-                    onChange={(e) => setLineId(e.target.value)}
-                    placeholder="e.g. Line-01, Line-04"
-                  />
-                </Field.Root>
-                <Field.Root flex={1} required>
-                  <Field.Label fontSize="xs" fontWeight="700" color={labelColor}>
-                    SHIFT
-                  </Field.Label>
-                  <Select
-                    size="sm"
-                    value={shift}
-                    onChange={(val) => setShift(val)}
-                    options={[
-                      { value: 'Shift-A', label: 'Shift A (Morning)' },
-                      { value: 'Shift-B', label: 'Shift B (Evening)' },
-                      { value: 'Shift-C', label: 'Shift C (Night)' },
-                    ]}
-                  />
-                </Field.Root>
-              </HStack>
+              <Field.Root required>
+                <Field.Label fontSize="xs" fontWeight="700" color={labelColor}>
+                  LINE NO.
+                </Field.Label>
+                <Input
+                  size="sm"
+                  value={lineId}
+                  onChange={(e) => setLineId(e.target.value)}
+                  placeholder="e.g. Line-01, Line-04"
+                />
+              </Field.Root>
             )}
 
             {/* System Info */}
@@ -327,6 +326,19 @@ export const CreateRequestModal: React.FC<CreateRequestModalProps> = ({
                 </Text>
               </VStack>
             </HStack>
+
+            {/* Production Shift Selector - Core tracking parameter */}
+            <Field.Root required>
+              <Field.Label fontSize="xs" fontWeight="700" color={labelColor} mb={1.5}>
+                PRODUCTION SHIFT *
+              </Field.Label>
+              <Select
+                id="shiftSelect"
+                value={shift}
+                onChange={(val) => setShift(val)}
+                options={SHIFT_OPTIONS}
+              />
+            </Field.Root>
 
             {/* Searchable Part Name Autocomplete */}
             <Select

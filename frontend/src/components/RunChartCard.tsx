@@ -99,6 +99,11 @@ const CustomTooltip = ({ active, payload, threshold, unit, specLabel }: any) => 
         </HStack>
 
         <HStack justify="space-between" mb={1}>
+          <Text color="gray.400">Shift:</Text>
+          <Text fontWeight="600" color="orange.300">{pt?.shift || 'Shift 1'}</Text>
+        </HStack>
+
+        <HStack justify="space-between" mb={1}>
           <Text color="gray.400">Part No:</Text>
           <Text fontWeight="600" fontFamily="mono">{pt?.partNumber || '—'}</Text>
         </HStack>

@@ -655,6 +655,25 @@ export const ReportEntryPage: React.FC = () => {
               </Box>
               <Box>
                 <Text fontSize="2xs" fontWeight="700" color="gray.500" textTransform="uppercase">
+                  Shift
+                </Text>
+                <Box mt={0.5}>
+                  <Badge
+                    colorPalette={
+                      (request?.shift || (report as any).shift || 'Shift 1') === 'Shift 1' ? 'blue' :
+                      (request?.shift || (report as any).shift || 'Shift 1') === 'Shift 2' ? 'orange' :
+                      (request?.shift || (report as any).shift || 'Shift 1') === 'Shift 3' ? 'purple' : 'teal'
+                    }
+                    size="sm"
+                    variant="subtle"
+                    fontWeight="700"
+                  >
+                    {request?.shift || (report as any).shift || 'Shift 1'}
+                  </Badge>
+                </Box>
+              </Box>
+              <Box>
+                <Text fontSize="2xs" fontWeight="700" color="gray.500" textTransform="uppercase">
                   Report Date
                 </Text>
                 <Text fontSize="sm" fontWeight="600" color={headingColor}>
@@ -920,7 +939,7 @@ export const ReportEntryPage: React.FC = () => {
               <Text fontSize="xs" fontWeight="700" color="gray.500" textTransform="uppercase" mb={3}>
                 INSPECTION REQUEST REFERENCE (READ-ONLY)
               </Text>
-              <SimpleGrid columns={{ base: 2, md: 4 }} gap={4}>
+              <SimpleGrid columns={{ base: 2, md: 5 }} gap={4}>
                 <Box>
                   <Text fontSize="2xs" color="gray.500" fontWeight="700">
                     REQUEST NUMBER
@@ -928,6 +947,25 @@ export const ReportEntryPage: React.FC = () => {
                   <Text fontSize="sm" fontWeight="700" fontFamily="mono" color="brand.600">
                     {request?.requestNumber}
                   </Text>
+                </Box>
+                <Box>
+                  <Text fontSize="2xs" color="gray.500" fontWeight="700">
+                    SHIFT
+                  </Text>
+                  <Box mt={0.5}>
+                    <Badge
+                      colorPalette={
+                        (request?.shift || 'Shift 1') === 'Shift 1' ? 'blue' :
+                        (request?.shift || 'Shift 1') === 'Shift 2' ? 'orange' :
+                        (request?.shift || 'Shift 1') === 'Shift 3' ? 'purple' : 'teal'
+                      }
+                      size="sm"
+                      variant="subtle"
+                      fontWeight="700"
+                    >
+                      {request?.shift || 'Shift 1'}
+                    </Badge>
+                  </Box>
                 </Box>
                 <Box>
                   <Text fontSize="2xs" color="gray.500" fontWeight="700">
@@ -1001,7 +1039,7 @@ export const ReportEntryPage: React.FC = () => {
               <Text fontSize="xs" fontWeight="700" color="gray.500" textTransform="uppercase" mb={3}>
                 INSPECTION REQUEST REFERENCE (READ-ONLY)
               </Text>
-              <SimpleGrid columns={{ base: 2, md: 4 }} gap={4}>
+              <SimpleGrid columns={{ base: 2, md: 5 }} gap={4}>
                 <Box>
                   <Text fontSize="2xs" color="gray.500" fontWeight="700">
                     REQUEST NUMBER
@@ -1009,6 +1047,25 @@ export const ReportEntryPage: React.FC = () => {
                   <Text fontSize="sm" fontWeight="700" fontFamily="mono" color="brand.600">
                     {request?.requestNumber}
                   </Text>
+                </Box>
+                <Box>
+                  <Text fontSize="2xs" color="gray.500" fontWeight="700">
+                    SHIFT
+                  </Text>
+                  <Box mt={0.5}>
+                    <Badge
+                      colorPalette={
+                        (request?.shift || 'Shift 1') === 'Shift 1' ? 'blue' :
+                        (request?.shift || 'Shift 1') === 'Shift 2' ? 'orange' :
+                        (request?.shift || 'Shift 1') === 'Shift 3' ? 'purple' : 'teal'
+                      }
+                      size="sm"
+                      variant="subtle"
+                      fontWeight="700"
+                    >
+                      {request?.shift || 'Shift 1'}
+                    </Badge>
+                  </Box>
                 </Box>
                 <Box>
                   <Text fontSize="2xs" color="gray.500" fontWeight="700">

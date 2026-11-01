@@ -10,6 +10,7 @@ import {
   Input,
   SimpleGrid,
   IconButton,
+  Badge,
 } from '@chakra-ui/react';
 import {
   Plus,
@@ -71,6 +72,7 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
   const [partNameFilter, setPartNameFilter] = useState(searchParams.get('partName') || '');
   const [inspectorFilter, setInspectorFilter] = useState(searchParams.get('inspector') || '');
   const [reportResultFilter, setReportResultFilter] = useState(searchParams.get('result') || '');
+  const [shiftFilter, setShiftFilter] = useState(searchParams.get('shift') || '');
   const [searchTerm, setSearchTerm] = useState('');
 
   // Master lists for filters
@@ -109,7 +111,7 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
 
   useEffect(() => {
     loadRequests();
-  }, [statusFilter, partNameFilter, inspectorFilter, reportResultFilter]);
+  }, [statusFilter, partNameFilter, inspectorFilter, reportResultFilter, shiftFilter]);
 
   const statusTabs = isInspectorView
     ? ['', 'Assigned', 'In Progress', 'Completed']
@@ -173,6 +175,7 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
       if (partNameFilter) filters.partName = partNameFilter;
       if (inspectorFilter) filters.inspectorId = inspectorFilter;
       if (reportResultFilter) filters.reportResult = reportResultFilter;
+      if (shiftFilter) filters.shift = shiftFilter;
 
       const data = await requestsApi.getRequests(filters);
       setRequests(data);
@@ -266,6 +269,7 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
       req.requestNumber.toLowerCase().includes(term) ||
       req.partName.toLowerCase().includes(term) ||
       req.partNumber.toLowerCase().includes(term) ||
+      (req.shift && req.shift.toLowerCase().includes(term)) ||
       (req.assignedInspectorName && req.assignedInspectorName.toLowerCase().includes(term))
     );
   });
@@ -283,6 +287,22 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
     {
       header: 'Date',
       accessor: 'date',
+    },
+    {
+      header: 'Shift',
+      accessor: 'shift',
+      render: (row) => {
+        const s = row.shift || 'Shift 1';
+        const colorPalette =
+          s === 'Shift 1' ? 'blue' :
+          s === 'Shift 2' ? 'orange' :
+          s === 'Shift 3' ? 'purple' : 'teal';
+        return (
+          <Badge colorPalette={colorPalette} size="sm" variant="subtle" fontWeight="700">
+            {s}
+          </Badge>
+        );
+      },
     },
     {
       header: 'Part Name',
@@ -536,7 +556,7 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
         boxShadow="sm"
         mb={5}
       >
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: isPE ? 5 : 4 }} gap={3} alignItems="flex-start">
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: isPE ? 6 : 5 }} gap={3} alignItems="flex-start">
           {/* Search */}
           <Field.Root id="filter-search" w="full">
             <Field.Label fontSize="xs" fontWeight="700" color={filterLabelColor} mb={1.5}>
@@ -635,6 +655,24 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
               isSearchable={true}
             />
           )}
+
+          {/* Shift Filter */}
+          <Select
+            id="filter-shift"
+            label="PRODUCTION SHIFT"
+            value={shiftFilter}
+            onChange={(val) => {
+              setShiftFilter(val);
+              updateQueryParam('shift', val);
+            }}
+            options={[
+              { value: '', label: 'All Shifts' },
+              { value: 'Shift 1', label: 'Shift 1 (Morning)' },
+              { value: 'Shift 2', label: 'Shift 2 (Evening)' },
+              { value: 'Shift 3', label: 'Shift 3 (Night)' },
+              { value: 'General Shift', label: 'General Shift' },
+            ]}
+          />
 
           {/* QC Result Filter */}
           <Select
