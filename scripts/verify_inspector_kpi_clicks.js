@@ -100,3 +100,4 @@ const ARTIFACT_DIR = 'C:/Users/VC/.gemini/antigravity/brain/e891c8d2-8113-4b6b-a
     await browser.close();
   }
 })();
+
