@@ -230,6 +230,7 @@ export const InspectorDashboardPage: React.FC = () => {
             icon={ClipboardList}
             colorScheme="blue"
             subtext="Assigned Work Orders"
+            onClick={() => navigate('/tasks')}
           />
           <KPICard
             title="Done / Completed"
@@ -237,6 +238,7 @@ export const InspectorDashboardPage: React.FC = () => {
             icon={CheckCircle2}
             colorScheme="green"
             subtext={`${data?.kpi?.throughput?.completionRatePercent ?? 0}% Completed`}
+            onClick={() => navigate('/tasks?status=Completed')}
           />
           <KPICard
             title="Pending (Not Started)"
@@ -244,6 +246,7 @@ export const InspectorDashboardPage: React.FC = () => {
             icon={Clock}
             colorScheme="orange"
             subtext="Ready for Inspection"
+            onClick={() => navigate('/tasks?status=Assigned')}
           />
           <KPICard
             title="In Progress (Active)"
@@ -251,6 +254,7 @@ export const InspectorDashboardPage: React.FC = () => {
             icon={PlayCircle}
             colorScheme="orange"
             subtext="Currently Under Test"
+            onClick={() => navigate('/tasks?status=In Progress')}
           />
         </SimpleGrid>
       </Box>
@@ -273,6 +277,7 @@ export const InspectorDashboardPage: React.FC = () => {
             colorScheme="green"
             subtext={`${data?.kpi?.heatTreatment?.passRatePercent ?? 0}% Pass (${data?.kpi?.heatTreatment?.testedQty ?? 0} Tested)`}
             badge="BHN ≥ 80 OK"
+            onClick={() => navigate('/tasks?status=Completed&hardnessStatus=OK')}
           />
           <KPICard
             title="Heat Treatment Fail"
@@ -281,6 +286,7 @@ export const InspectorDashboardPage: React.FC = () => {
             colorScheme="red"
             subtext="Hardness Sub-Spec"
             badge="BHN < 80"
+            onClick={() => navigate('/tasks?status=Completed&hardnessStatus=NOT_OK')}
           />
           <KPICard
             title="Tensile Qty Pass"
@@ -289,6 +295,7 @@ export const InspectorDashboardPage: React.FC = () => {
             colorScheme="green"
             subtext={`${data?.kpi?.tensile?.passRatePercent ?? 0}% Pass (${data?.kpi?.tensile?.testedQty ?? 0} Tested)`}
             badge="YS/UTS/%E OK"
+            onClick={() => navigate('/tasks?status=Completed&mechanicalStatus=OK')}
           />
           <KPICard
             title="Tensile Qty Fail"
@@ -297,6 +304,7 @@ export const InspectorDashboardPage: React.FC = () => {
             colorScheme="red"
             subtext="Mechanical Sub-Spec"
             badge="SUB-SPEC"
+            onClick={() => navigate('/tasks?status=Completed&mechanicalStatus=NOT_OK')}
           />
         </SimpleGrid>
       </Box>

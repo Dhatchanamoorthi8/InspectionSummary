@@ -170,6 +170,8 @@ export const requestsApi = {
     partName?: string;
     inspectorId?: string;
     reportResult?: string;
+    hardnessStatus?: string;
+    mechanicalStatus?: string;
     shift?: string;
   }) => {
     const res = await api.get<InspectionRequest[]>('/requests', {

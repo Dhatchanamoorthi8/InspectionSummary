@@ -323,6 +323,7 @@ export const ProductionDashboardPage: React.FC = () => {
           colorScheme="green"
           badge="BHN ≥ 80"
           subtext={`${data?.kpi?.heatTreatment?.passRatePercent ?? 0}% Pass`}
+          onClick={() => navigate('/requests?status=Completed&hardnessStatus=OK')}
         />
         <KPICard
           compact
@@ -332,6 +333,7 @@ export const ProductionDashboardPage: React.FC = () => {
           colorScheme="red"
           badge="BHN < 80"
           subtext="Sub-Spec"
+          onClick={() => navigate('/requests?status=Completed&hardnessStatus=NOT_OK')}
         />
         <KPICard
           compact
@@ -341,6 +343,7 @@ export const ProductionDashboardPage: React.FC = () => {
           colorScheme="green"
           badge="YS/UTS OK"
           subtext={`${data?.kpi?.tensile?.passRatePercent ?? 0}% Pass`}
+          onClick={() => navigate('/requests?status=Completed&mechanicalStatus=OK')}
         />
         <KPICard
           compact
@@ -350,6 +353,7 @@ export const ProductionDashboardPage: React.FC = () => {
           colorScheme="red"
           badge="Sub-Spec"
           subtext="Mechanical Rej"
+          onClick={() => navigate('/requests?status=Completed&mechanicalStatus=NOT_OK')}
         />
         <KPICard
           compact
@@ -359,6 +363,7 @@ export const ProductionDashboardPage: React.FC = () => {
           colorScheme={(data?.kpi?.overallQuality?.firstPassYieldPercent ?? 0) >= 80 ? 'green' : 'orange'}
           badge="Yield"
           subtext={`${data?.kpi?.overallQuality?.overallOk ?? 0} OK / ${data?.kpi?.overallQuality?.overallNotOk ?? 0} Rej`}
+          onClick={() => navigate('/requests?status=Completed')}
         />
       </SimpleGrid>
 

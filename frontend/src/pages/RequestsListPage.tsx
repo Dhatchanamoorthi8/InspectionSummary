@@ -72,6 +72,8 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
   const [partNameFilter, setPartNameFilter] = useState(searchParams.get('partName') || '');
   const [inspectorFilter, setInspectorFilter] = useState(searchParams.get('inspector') || '');
   const [reportResultFilter, setReportResultFilter] = useState(searchParams.get('result') || '');
+  const [hardnessStatusFilter, setHardnessStatusFilter] = useState(searchParams.get('hardnessStatus') || '');
+  const [mechanicalStatusFilter, setMechanicalStatusFilter] = useState(searchParams.get('mechanicalStatus') || '');
   const [shiftFilter, setShiftFilter] = useState(searchParams.get('shift') || '');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -109,9 +111,31 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
     loadFilterMetadata();
   }, []);
 
+  // Sync state with URL search params (e.g. from Dashboard KPI clicks)
+  useEffect(() => {
+    setStatusFilter(searchParams.get('status') || '');
+    setPartNameFilter(searchParams.get('partName') || '');
+    setInspectorFilter(searchParams.get('inspector') || '');
+    setReportResultFilter(searchParams.get('result') || '');
+    setHardnessStatusFilter(searchParams.get('hardnessStatus') || '');
+    setMechanicalStatusFilter(searchParams.get('mechanicalStatus') || '');
+    setShiftFilter(searchParams.get('shift') || '');
+    if (searchParams.get('create') === 'true') {
+      setIsCreateOpen(true);
+    }
+  }, [searchParams]);
+
   useEffect(() => {
     loadRequests();
-  }, [statusFilter, partNameFilter, inspectorFilter, reportResultFilter, shiftFilter]);
+  }, [
+    statusFilter,
+    partNameFilter,
+    inspectorFilter,
+    reportResultFilter,
+    hardnessStatusFilter,
+    mechanicalStatusFilter,
+    shiftFilter,
+  ]);
 
   const statusTabs = isInspectorView
     ? ['', 'Assigned', 'In Progress', 'Completed']
@@ -175,6 +199,8 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
       if (partNameFilter) filters.partName = partNameFilter;
       if (inspectorFilter) filters.inspectorId = inspectorFilter;
       if (reportResultFilter) filters.reportResult = reportResultFilter;
+      if (hardnessStatusFilter) filters.hardnessStatus = hardnessStatusFilter;
+      if (mechanicalStatusFilter) filters.mechanicalStatus = mechanicalStatusFilter;
       if (shiftFilter) filters.shift = shiftFilter;
 
       const data = await requestsApi.getRequests(filters);
@@ -691,6 +717,86 @@ export const RequestsListPage: React.FC<RequestsListPageProps> = ({
           />
         </SimpleGrid>
       </Box>
+
+      {/* Active Filter Indicator Bar */}
+      {(statusFilter || partNameFilter || inspectorFilter || reportResultFilter || hardnessStatusFilter || mechanicalStatusFilter || shiftFilter || searchTerm) && (
+        <Flex
+          justify="space-between"
+          align="center"
+          bg={useColorModeValue('blue.50', 'rgba(37, 99, 235, 0.15)')}
+          px={3.5}
+          py={2}
+          borderRadius="md"
+          mb={4}
+          border="1px solid"
+          borderColor={useColorModeValue('blue.200', 'blue.800')}
+          wrap="wrap"
+          gap={2}
+        >
+          <HStack gap={2} wrap="wrap">
+            <Badge colorPalette="blue" size="sm" variant="solid" fontWeight="700">
+              FILTER ACTIVE
+            </Badge>
+            {statusFilter && (
+              <Badge colorPalette="gray" size="sm" variant="subtle">
+                Status: {statusFilter}
+              </Badge>
+            )}
+            {reportResultFilter && (
+              <Badge colorPalette={reportResultFilter === 'OK' ? 'green' : 'red'} size="sm" variant="subtle">
+                Result: {reportResultFilter}
+              </Badge>
+            )}
+            {hardnessStatusFilter && (
+              <Badge colorPalette={hardnessStatusFilter === 'OK' ? 'green' : 'red'} size="sm" variant="subtle">
+                Hardness (BHN): {hardnessStatusFilter === 'OK' ? 'BHN ≥ 80 OK' : 'BHN < 80 Sub-Spec'}
+              </Badge>
+            )}
+            {mechanicalStatusFilter && (
+              <Badge colorPalette={mechanicalStatusFilter === 'OK' ? 'green' : 'red'} size="sm" variant="subtle">
+                Tensile Mechanical: {mechanicalStatusFilter === 'OK' ? 'YS/UTS/%E OK' : 'Sub-Spec (Rej)'}
+              </Badge>
+            )}
+            {partNameFilter && (
+              <Badge colorPalette="gray" size="sm" variant="subtle">
+                Part: {partNameFilter}
+              </Badge>
+            )}
+            {shiftFilter && (
+              <Badge colorPalette="orange" size="sm" variant="subtle">
+                Shift: {shiftFilter}
+              </Badge>
+            )}
+            {searchTerm && (
+              <Badge colorPalette="gray" size="sm" variant="subtle">
+                Search: "{searchTerm}"
+              </Badge>
+            )}
+            <Text fontSize="2xs" color="gray.500" fontWeight="600">
+              ({filteredRequests.length} matching {isInspectorView ? 'tasks' : 'requests'})
+            </Text>
+          </HStack>
+          <Button
+            size="2xs"
+            variant="ghost"
+            colorPalette="red"
+            fontWeight="700"
+            onClick={() => {
+              setStatusFilter('');
+              setPartNameFilter('');
+              setInspectorFilter('');
+              setReportResultFilter('');
+              setHardnessStatusFilter('');
+              setMechanicalStatusFilter('');
+              setShiftFilter('');
+              setSearchTerm('');
+              setSearchParams(new URLSearchParams(), { replace: true });
+            }}
+          >
+            Clear Filters ×
+          </Button>
+        </Flex>
+      )}
 
       {/* Requests Data Table */}
       <DataTable

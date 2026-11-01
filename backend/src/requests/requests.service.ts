@@ -77,6 +77,8 @@ export class RequestsService implements OnModuleInit {
     partName?: string;
     inspectorId?: string;
     reportResult?: string;
+    hardnessStatus?: string;
+    mechanicalStatus?: string;
     shift?: string;
   }) {
     const query = this.requestRepo
@@ -109,6 +111,18 @@ export class RequestsService implements OnModuleInit {
     if (filters?.reportResult) {
       query.andWhere('report.overallStatus = :reportResult', {
         reportResult: filters.reportResult,
+      });
+    }
+
+    if (filters?.hardnessStatus) {
+      query.andWhere('report.hardnessStatus = :hardnessStatus', {
+        hardnessStatus: filters.hardnessStatus,
+      });
+    }
+
+    if (filters?.mechanicalStatus) {
+      query.andWhere('report.mechanicalStatus = :mechanicalStatus', {
+        mechanicalStatus: filters.mechanicalStatus,
       });
     }
 
