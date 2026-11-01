@@ -1,11 +1,11 @@
 @echo off
-title Frontend Dev Server (Vite)
+title Backend Dev Server
 echo ========================================================
-echo   Starting Frontend Dev Server
+echo   Starting Backend Dev Server
 echo ========================================================
-cd /d "%~dp0frontend"
+cd /d "%~dp0"
 echo Current Directory: %CD%
-echo Executing: npm run dev
+echo Executing: npm run start:dev
 echo ========================================================
-npm run dev
+npm run start:dev
 pause
